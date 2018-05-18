@@ -1,6 +1,6 @@
 # IoT动手实验 - 树莓派控制
 
-本实验教大家一步步的在AWS 平台搭建自己的的物联网设备，主要使用树莓派加传感器，通过MQTT 协议把传感器信息上传到AWS IoT 平台，同时移动终端终端通过访问AWS IoT，实时获取传感器信息，进一步控制设备。
+也许您的树莓派放在家里已经吃灰很久了，本实验带把树莓派用起来。指导我们如何一步步的在AWS 平台搭建自己的的物联网设备，主要使用树莓派加传感器，通过MQTT 协议把传感器信息上传到AWS IoT 平台，同时移动终端终端通过访问AWS IoT，实时获取传感器信息，进一步控制设备。
 
 ![Architecture](./images/architecture.jpeg)
 
@@ -9,8 +9,13 @@
 需要硬件设备：
 
 - 树莓派一个
-- 一根二极管
-- 一个DHT11 温湿度传感器
+- 树莓派电源
+- 内存卡一张（至少8G）
+
+除了以上吃灰设备，您可以在万能的X宝上轻松买到以下设备，我批量买入了十几套设备，每套成本算下来应该是5块钱。
+
+- 一根二极管（一般都是一包买，本实验只需要用一根）
+- 一个DHT11温湿度传感器（如果您对数据精确到有要求可以买DHT22）
 - 面包板一个
 - 杜邦线（两头母母）一排
 
@@ -180,7 +185,7 @@ sudo pip install AWSIoTPythonSDK
 vi ThingShadowAgent.py
 ```
 
-endpoint：登录您的 AWS IoT 控制台（https://console.amazonaws.cn/iot/home?region=cn-north-1#/settings），选择左边的设置，页面中的终端节点就是endpoint，对于每个AWS 账户这是唯一的。
+endpoint：登录您的 AWS IoT 控制台(https://console.amazonaws.cn/iot/home?region=cn-north-1#/settings)， 选择左边的设置，页面中的终端节点就是endpoint，对于每个AWS 账户这是唯一的。
 
 thingName：**raspberry<组号>（上述注册设置的组名）**
 
@@ -210,10 +215,10 @@ python ThingShadowAgent.py
 1. 打开AWS IoT 控制台 (https://console.amazonaws.cn/iot/home?region=cn-north-1#/dashboard)
 2. 选择左边菜单栏的行动，您将看到规则页面
 3. 选择创建规则
-4. 名称：**raspberry<组号>，**描述可以留空不填
-5. **属性：**
-6. **主题筛选条件：”**raspberry<组号>/sensor/data”（示例：****raspberry01/sensor/data）
-7. 选择添加操作，在下一屏幕中选择“在 Amazon S3 存储桶中存储消息”，然后点击配置操作进入下一步
+4. 名称：raspberry<组号>，描述可以留空不填
+5. 属性：*
+6. 主题筛选条件："raspberry<组号>/sensor/data"（示例：raspberry01/sensor/data）
+7. 选择添加操作，在下一屏幕中选择 "在 Amazon S3 存储桶中存储消息"，然后点击配置操作进入下一步
 8. 选择创建新资源会跳到S3控制台页面，然后选择页面中“创建的存储桶”，在页面输入raspberry<组号>作为您唯一的存储桶，之后返回IoT 控制台页面，点击页面中的刷新按钮，选择您刚刚创建的存储桶
 9. *键一栏输入：${timestamp()}sensordata
 10. IAM 角色选择“创建一个新角色” 
